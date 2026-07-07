@@ -1,0 +1,248 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.SmartDoor">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <!-- Video Feed Container -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000">
+
+                <WebView
+                    android:id="@+id/webViewCamera"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/textCameraStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Tap to Connect Camera"
+                    android:textColor="#FFFFFF"
+                    android:alpha="0.8"
+                    android:textSize="14sp"
+                    android:background="@drawable/rounded_bg_semitransparent"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"/>
+
+                 <!-- Status & Controls Overlay -->
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="80dp"
+                     android:layout_gravity="bottom"
+                     android:background="@drawable/gradient_overlay"/>
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="bottom"
+                     android:padding="16dp"
+                     android:orientation="horizontal"
+                     android:gravity="center_vertical">
+                     
+                     <LinearLayout
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:orientation="vertical">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Smart Guard System"
+                             android:textColor="#FFFFFF"
+                             android:textStyle="bold"
+                             android:textSize="18sp"/>
+                         
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Live Monitoring"
+                             android:textColor="#B0BEC5"
+                             android:textSize="12sp"/>
+                     </LinearLayout>
+                         
+                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchAgent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:text="Active"
+                        app:trackTint="@color/colorAccent"
+                        app:thumbTint="@color/white"/>
+                 </LinearLayout>
+            </FrameLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/company_logo"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="start"/>
+                
+                <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Smart Door"
+                     android:textColor="#FFF"
+                     android:textSize="20sp"
+                     android:fontFamily="sans-serif-medium"
+                     android:layout_marginStart="12dp"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content (Visitor List) -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recent Visitors"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:letterSpacing="-0.02"/>
+            
+            <TextView
+                android:id="@+id/emptyView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No visitors logged yet."
+                android:gravity="center"
+                android:padding="48dp"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:textColor="@color/textHint"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="80dp"/> <!-- Space for floating card -->
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Floating Approval Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardApproval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        app:cardElevation="16dp"
+        app:cardCornerRadius="24dp"
+        app:strokeColor="@color/statusPending"
+        app:strokeWidth="1dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="APPROVAL REQUESTED"
+                    android:textColor="@color/statusPending"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.15"/>
+                    
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_launcher"
+                    app:tint="@color/statusPending"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textVisitorInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Visitor Name\nPurpose"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/textPrimary"
+                android:lineSpacingExtra="4dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="32dp">
+
+                <Button
+                    android:id="@+id/btnDeny"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:text="Deny"
+                    android:textColor="@color/statusDenied"
+                    app:strokeColor="@color/statusDenied"
+                    app:strokeWidth="2dp"
+                    app:cornerRadius="12dp"
+                    android:layout_marginEnd="12dp"/>
+
+                <Button
+                    android:id="@+id/btnApprove"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:text="Approve"
+                    android:backgroundTint="@color/statusApproved"
+                    android:textColor="@color/white"
+                    app:cornerRadius="12dp"
+                    android:layout_marginStart="12dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
