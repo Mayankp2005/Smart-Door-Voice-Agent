@@ -1,0 +1,10 @@
+opencv-python
+mediapipe
+SpeechRecognition
+Flask
+firebase-admin
+pyttsx3
+pygame
+python-dotenv
+elevenlabs
+gTTS
